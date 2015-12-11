@@ -12,7 +12,7 @@ def loginPOST():
 	return r.json
 
 def __init__():
-    print loginPOST()
+	print loginPOST()
 	exit(0)
 	
 __init__()
