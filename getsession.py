@@ -9,7 +9,7 @@ loginRequest = {'account_id': 'xxxxx', 'email': 'xxxxx', 'password': 'xxxxx'}
 	
 def loginPOST():
 	r = requests.post(backendUrl, data=json.dumps(loginRequest), verify=False)
-	return r.text
+	return r.json
 
 def __init__():
     print loginPOST()
