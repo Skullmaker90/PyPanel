@@ -4,8 +4,8 @@ import json
 requests.packages.urllib3.disable_warnings()
 
 
-backendUrl = 'https://admin.ibizoncall.com/iBiz/Panel/Login'
-loginRequest = {'account_id': '187358', 'email': 'asmith@cari.net', 'password': 'xxxxx'}
+backendUrl = 'https://backend.ibizapi.com:8888/JSON/AccountManager/AAA?action=Authenticate'
+loginRequest = {'account_id': 'xxxxx', 'email': 'xxxxx', 'password': 'xxxxx'}
 	
 def loginPOST():
 	r = requests.post(backendUrl, data=json.dumps(loginRequest), verify=False)
