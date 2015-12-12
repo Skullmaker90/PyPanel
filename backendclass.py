@@ -17,7 +17,7 @@ class JSONRequest:
 		key_session = data['session_key']
 		
 	def caseList(self, key_session):
-		requestData = {'account_id': "1000", 'session_key': key_session}
+		requestData = {'account_id': '1000', 'session_key': key_session, 'MANY', '100'}
 		requestURL = backendURL + 'Case?action=List'
 		r = requests.post(requestURL, data=json.dumps(requestData), verify=False)
 		casesJson = r.json()
