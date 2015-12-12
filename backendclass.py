@@ -1,5 +1,6 @@
 import json
 import requests
+requests.packages.urllib3.disable_warnings()
 
 class JSONRequest:
 	"""This class allows you to make requests to the backend server."""
