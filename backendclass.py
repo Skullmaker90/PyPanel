@@ -32,12 +32,14 @@ class JSONRequest(object):
                 r = requests.post(requestURL, data=json.dumps(requestData), verify=False)
                 casesJson = r.json()
 	
-	def logOut(self):
-		requestData = {'session_key': key_session}
-		requestURL = backendURL + 'AccountManager/AAA?action=Logout'
-		r = requests.post(requestURL, data=json.dumps(requestData), verify=False)
-		responseJSON = r.json()
-		if responseJSON = 0
-			print "Success!"
-		else
-			print "Fail."	
+        def logout(self, key_session):
+		    requestData = {'session_key': key_session}
+		    requestURL = backendURL + 'AccountManager/AAA?action=Logout'
+		    r = requests.post(requestURL, data=json.dumps(requestData), verify=False)
+		    data = r.json()
+		    logoutResp = data['success']
+		    if "1" not in logoutResp:
+			    print "Logged out of the panel!"
+		    else:
+			    print "We returned an error (or otherwise did not log out!) Exiting!"
+			    exit(1)
