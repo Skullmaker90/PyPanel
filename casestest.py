@@ -27,6 +27,7 @@ def runAuth(user, password):
         request.login(user, password)
         if backendclass.key_session != None:
                 print "Success! The session_key is %s" % backendclass.key_session
+		print
 		# Added this just to test the caseboard while we write out a session verification.
 		# board = backendclass.JSONRequest()
 		# print board.caseList()
