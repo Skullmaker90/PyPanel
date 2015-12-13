@@ -17,6 +17,7 @@ class MySQLQuery(object):
 			global accId
 			self.accId = q.fetchall()
 			self.accId = self.accId[0][0]
+			int(self.accId)
 
 		except mdb.Error, e:
 
