@@ -18,12 +18,15 @@ class JSONRequest(object):
 		# Check mysqlclass to see what this does.
 		idreq = MySQLQuery()
 		idreq.idQuery(user)
-		requestData = {'account_id': id, 'email': user, 'password': password}
+		# Fixed the id parameter
+		requestData = {'account_id': idreq.accId, 'email': user, 'password': password}
                 requestURL = backendURL + 'AccountManager/AAA?action=Authenticate'
                 r = requests.post(requestURL, data=json.dumps(requestData), verify=False)
                 responseJSON = r.json() # Changed this from r.text() to r.json().
 		# Since it's already decoded we don't need this.
-                # data = json.loads(responseJSON) 
+                # data = json.loads(responseJSON)
+		# Added 12/13 need to make sure it's changing the global key_session.
+		global key_session
                 key_session = responseJSON['session_key']
 
         def caseList(self):
