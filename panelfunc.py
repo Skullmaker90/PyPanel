@@ -3,6 +3,13 @@
 import keyauth, requests, json, getpass
 requests.packages.urllib3.disable_warnings()
 
+# This is the current running functions of the PyPanel. ./panelfunc.py
+# will ask what you would like to do, if you request the caseboard it
+# will check keyauth to see if your authenticated and if not it'll auth
+# the user then return the caseboard (Still working that out) and dump
+# the user back at the prompt screen. This will eventually become the
+# backendfunc class with everything we would need to call for the backend.
+
 a = keyauth.keyauth()
 
 def authcheck():
