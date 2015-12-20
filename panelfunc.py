@@ -23,7 +23,7 @@ def caseBoard(a, func):
 	requestURL = a.backendURL + 'Case?action=List'
 	r = requests.post(requestURL, data=json.dumps(requestData), verify=False)
 	casesJSON = r.json()
-	func()
+	func(a)
 
 def menu(a):
 	print("What would you like to do? (1 for Caseboard, 2 for logout)")
@@ -35,7 +35,7 @@ def menu(a):
 		a.logout()
 	else:
 		print("That's not an option.")
-	menu()
+	menu(a)
 
 def main():
 	url = 'https://backendbeta.ibizapi.com:8888/JSON/'
