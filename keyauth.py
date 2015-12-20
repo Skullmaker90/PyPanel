@@ -9,9 +9,9 @@ import json, requests
 requests.packages.urllib3.disable_warnings()
 
 class keyauth(object):
-	def __init__(self):
+	def __init__(self, url):
 		self.key = None
-		self.backendURL = str('https://backendbeta.ibizapi.com:8888/JSON/')
+		self.backendURL = url
 	
 	def login (self, user, password):
 		self.user, self.password = user, password

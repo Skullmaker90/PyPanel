@@ -10,39 +10,36 @@ requests.packages.urllib3.disable_warnings()
 # the user back at the prompt screen. This will eventually become the
 # backendfunc class with everything we would need to call for the backend.
 
-a = keyauth.keyauth()
-
-def authcheck():
+def authcheck(a):
 	if a.key == None:
 		user = raw_input("Email: ")
 		password = getpass.getpass("Password: ")
 		a.login(user, password)
 		print("Your session key is: %s") % (a.key)
-		return
-	else:
-		return
 
-def callback(func):
-	return func()
-
-def caseBoard():
-	callback(authcheck)
+def caseBoard(a, func):
+	authcheck(a)
 	requestData = {'account_id': '2277', 'session_key': a.key, 'MANY': '15'}
 	requestURL = a.backendURL + 'Case?action=List'
 	r = requests.post(requestURL, data=json.dumps(requestData), verify=False)
 	casesJSON = r.json()
-	return
+	func()
 
-def __main__():
+def menu(a):
 	print("What would you like to do? (1 for Caseboard, 2 for logout)")
 	choice = int(raw_input())
 	if choice == 1:
-		print caseBoard()
+		print caseBoard(a, menu)
 	elif choice == 2:
 		print("Logging out.")
 		a.logout()
 	else:
 		print("That's not an option.")
-	return __main__()
+	menu()
 
-__main__()
+def main():
+	url = 'https://backendbeta.ibizapi.com:8888/JSON/'
+	a = keyauth.keyauth(url)
+	menu(a)
+
+main()
