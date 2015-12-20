@@ -25,7 +25,8 @@ def caseBoard(a, func):
 	casesJSON = r.json()
 
 def menu(a):
-	while True:
+	running = True
+	while running == True:
 		print("What would you like to do? (1 for Caseboard, 2 for logout, 3 to exit)")
 		choice = int(raw_input())
 		if choice == 1:
@@ -34,7 +35,7 @@ def menu(a):
 			print("Logging out.")
 			a.logout()
 		elif choice == 3:
-			exit(0)
+			running = False
 		else:
 			print("That's not an option.")
 
