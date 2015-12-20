@@ -23,19 +23,20 @@ def caseBoard(a, func):
 	requestURL = a.backendURL + 'Case?action=List'
 	r = requests.post(requestURL, data=json.dumps(requestData), verify=False)
 	casesJSON = r.json()
-	func(a)
 
 def menu(a):
-	print("What would you like to do? (1 for Caseboard, 2 for logout)")
-	choice = int(raw_input())
-	if choice == 1:
-		print caseBoard(a, menu)
-	elif choice == 2:
-		print("Logging out.")
-		a.logout()
-	else:
-		print("That's not an option.")
-	menu(a)
+	while True:
+		print("What would you like to do? (1 for Caseboard, 2 for logout, 3 to exit)")
+		choice = int(raw_input())
+		if choice == 1:
+			print caseBoard(a, menu)
+		elif choice == 2:
+			print("Logging out.")
+			a.logout()
+		elif choice == 3:
+			exit(0)
+		else:
+			print("That's not an option.")
 
 def main():
 	url = 'https://backendbeta.ibizapi.com:8888/JSON/'
