@@ -11,23 +11,23 @@ requests.packages.urllib3.disable_warnings()
 class keyauth(object):
 	def __init__(self, url):
 		self.key = None
-		self.backendURL = url
+		self.backend_url = url
 	
 	def login (self, user, password):
 		self.user, self.password = user, password
-		accHost = str('admin.ibizpanel.net')
-		requestData = {'account_host': accHost, 'email': user, 'password': password}
-		requestUrl = self.backendURL + 'AccountManager/AAA?action=Authenticate'
-		a = requests.post(requestUrl, data=json.dumps(requestData), verify=False)
-		responseJSON = a.json()
-		self.key = responseJSON['session_key']
+		acc_host = str('admin.ibizpanel.net')
+		request_data = {'account_host': acc_host, 'email': user, 'password': password}
+		request_url = self.backend_url + 'AccountManager/AAA?action=Authenticate'
+		a = requests.post(request_url, data=json.dumps(request_data), verify=False)
+		response_json = a.json()
+		self.key = response_json['session_key']
 
 	def logout (self):
-		requestData = {'session_key': self.key}
-		requestURL = self.backendURL + 'AccountManager/AAA?action=Logout'
-		l = requests.post(requestURL, data=json.dumps(requestData), verify=False)
-		responseJSON = l.json()
-		if responseJSON['success']  == unicode('1'):
+		request_data = {'session_key': self.key}
+		request_url = self.backend_url + 'AccountManager/AAA?action=Logout'
+		l = requests.post(request_url, data=json.dumps(request_data), verify=False)
+		response_json = l.json()
+		if response_json['success']  == unicode('1'):
 			print "Success!"
 			self.key = None
 			return
