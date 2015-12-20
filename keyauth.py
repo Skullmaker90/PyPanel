@@ -3,7 +3,7 @@
 # I basically rewrote all of this code to implement more OO-Python
 # and to store and manipulate key_session as a variable. This class
 # is purely for retrieving an popping the session keys. If there are
-# any questions come see Anthony.
+# any questions come see Anthony..
 
 import json, requests
 requests.packages.urllib3.disable_warnings()
