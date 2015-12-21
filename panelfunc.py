@@ -26,12 +26,9 @@ def case_board(auth, request_data):
 	request_url = auth.backend_url + 'Case?action=List'
 	request_data['session_key'] = auth.key
 	r = requests.post(request_url, data=json.dumps(request_data), verify=False)
-	# return r.json()
 	board = r.json()
 	list = board[u'LIST']
 	for row in list:
-		# print(row)
-		# type(row[u'creation_date']
 		if (row[u'status'] == "RESPONSE" or row[u'status'] == "PENDING" or row[u'status'] == "NEW"):
 			string = ("\nCase Number: " + row[u'case_id'] + "\n"
 				"Account Number: " + row[u'account_id'] + "\n"
@@ -48,9 +45,6 @@ def menu(auth, request_data):
 		choice = int(raw_input())
 		if choice == 1:
 			case_board(auth, request_data)
-			#list = blob[u'LIST']
-			#for row in list:
-			#	print(row[u'case_id'])
 		elif choice == 2:
 			print("Logging out.")
 			auth.logout()
