@@ -24,16 +24,16 @@ def case_board(auth, request_data):
 	r = requests.post(request_url, data=json.dumps(request_data), verify=False)
 	cases_json = r.json()
 
-def menu(auth_object, request_data):
+def menu(auth, request_data):
 	running = True
 	while running == True:
 		print("What would you like to do? (1 for Caseboard, 2 for logout, 3 to exit)")
 		choice = int(raw_input())
 		if choice == 1:
-			print case_board(auth_object, request_data)
+			print case_board(auth, request_data)
 		elif choice == 2:
 			print("Logging out.")
-			auth_object.logout()
+			auth.logout()
 		elif choice == 3:
 			running = False
 		else:
@@ -42,7 +42,7 @@ def menu(auth_object, request_data):
 def main():
 	request_data = {'account_id': '2277', 'MANY': '15'}
 	url = 'https://backendbeta.ibizapi.com:8888/JSON/'
-	auth_object = keyauth.keyauth(url)
-	menu(auth_object, request_data)
+	auth = keyauth.keyauth(url)
+	menu(auth, request_data)
 
 main()
