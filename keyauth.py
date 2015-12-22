@@ -11,6 +11,7 @@ requests.packages.urllib3.disable_warnings()
 class keyauth(object):
 	def __init__(self, url):
 		self.key = None
+		self.usr_acc_id = None
 		self.backend_url = url
 	
 	def login (self, user, password):
@@ -22,6 +23,7 @@ class keyauth(object):
 		response_json = a.json()
 		try:
 			self.key = response_json['session_key']
+			self.usr_acc_id = respons_json['account_id']
 		except: 
 			print("Session key not set.")
 
