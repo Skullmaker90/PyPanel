@@ -1,7 +1,9 @@
 #!/usr/bin/python
 
-import keyauth, requests, json, getpass
+import keyauth, requests, json, getpass, time
 requests.packages.urllib3.disable_warnings()
+
+# Author: Anthony Smith. Last update: 12/22/2015. Version: 0.1
 
 # This is the current running functions of the PyPanel. ./panelfunc.py
 # will ask what you would like to do, if you request the caseboard it
@@ -10,39 +12,55 @@ requests.packages.urllib3.disable_warnings()
 # the user back at the prompt screen. This will eventually become the
 # backendfunc class with everything we would need to call for the backend.
 
-def auth_check(a):
-	if a.key == None:
+def auth_check(auth):
+	if auth.key == None:
 		user = raw_input("Email: ")
 		password = getpass.getpass("Password: ")
-		a.login(user, password)
-		print("Your session key is: %s") % (a.key)
+		try:
+			auth.login(user, password)
+		except:
+			print("Wrong email/password. Try again.")
+			auth.login(user, password)
+		print("Your session key is: %s") % (auth.key)
 
-def case_board(a, request_data):
-	auth_check(a)
-	request_url = a.backend_url + 'Case?action=List'
-	request_data['session_key'] = a.key
+def case_board(auth, request_data):
+	auth_check(auth)
+	request_url = auth.backend_url + 'Case?action=List'
+	request_data['session_key'] = auth.key
 	r = requests.post(request_url, data=json.dumps(request_data), verify=False)
-	cases_json = r.json()
+	board = r.json()
+	list = board[u'LIST']
+	for row in list:
+		string = ("\nCase Number: " + row[u'case_id'] + "\n"
+			"Account Number: " + row[u'account_id'] + "\n"
+			"Open Date: " + time.strftime('%m/%d/%Y %H:%M:%S', time.localtime(int(row[u'creation_date']))) + "\n"
+			"Last Update: " + time.strftime('%m/%d/%Y %H:%M:%S',  time.localtime(int(row[u'last_update'])))  + "\n"
+			"Status: " + row[u'status'] + "\n"
+			"Description: " + row[u'description'] + "\n")
+		print(string)
 
-def menu(a, request_data):
+def menu(auth, request_data):
 	running = True
 	while running == True:
 		print("What would you like to do? (1 for Caseboard, 2 for logout, 3 to exit)")
 		choice = int(raw_input())
 		if choice == 1:
-			print case_board(a, request_data)
+			case_board(auth, request_data)
 		elif choice == 2:
 			print("Logging out.")
-			a.logout()
+			auth.logout()
 		elif choice == 3:
+			try:
+				auth.logout()
+			except: pass
 			running = False
 		else:
 			print("That's not an option.")
 
 def main():
-	request_data = {'account_id': '2277', 'MANY': '15'}
+	request_data = {'limit':{'OR1':{'OR1':{'status':"RESPONSE"},'OR2':{'status':"PENDING"},'OR3':{'status':"NEW"},'OR4':{'status':"UPSTREAM"}}}, 'account_id': '2277'}
 	url = 'https://backendbeta.ibizapi.com:8888/JSON/'
-	a = keyauth.keyauth(url)
-	menu(a, request_data)
+	auth = keyauth.keyauth(url)
+	menu(auth, request_data)
 
 main()

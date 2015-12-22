@@ -20,7 +20,10 @@ class keyauth(object):
 		request_url = self.backend_url + 'AccountManager/AAA?action=Authenticate'
 		a = requests.post(request_url, data=json.dumps(request_data), verify=False)
 		response_json = a.json()
-		self.key = response_json['session_key']
+		try:
+			self.key = response_json['session_key']
+		except: 
+			print("Session key not set.")
 
 	def logout (self):
 		request_data = {'session_key': self.key}
