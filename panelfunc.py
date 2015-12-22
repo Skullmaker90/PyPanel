@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
-import keyauth, requests, json, getpass, time
+import requests, json, getpass, time
+import keyauth, case_func
 requests.packages.urllib3.disable_warnings()
 
 # Author: Anthony Smith. Last update: 12/22/2015. Version: 0.1
@@ -22,45 +23,37 @@ def auth_check(auth):
 			print("Wrong email/password. Try again.")
 			auth.login(user, password)
 		print("Your session key is: %s") % (auth.key)
+		print("Your account ID is: %s") % (auth.usr_acc_id)
 
-def case_board(auth, request_data):
-	auth_check(auth)
-	request_url = auth.backend_url + 'Case?action=List'
-	request_data['session_key'] = auth.key
-	r = requests.post(request_url, data=json.dumps(request_data), verify=False)
-	board = r.json()
-	list = board[u'LIST']
-	for row in list:
-		string = ("\nCase Number: " + row[u'case_id'] + "\n"
-			"Account Number: " + row[u'account_id'] + "\n"
-			"Open Date: " + time.strftime('%m/%d/%Y %H:%M:%S', time.localtime(int(row[u'creation_date']))) + "\n"
-			"Last Update: " + time.strftime('%m/%d/%Y %H:%M:%S',  time.localtime(int(row[u'last_update'])))  + "\n"
-			"Status: " + row[u'status'] + "\n"
-			"Description: " + row[u'description'] + "\n")
-		print(string)
-
-def menu(auth, request_data):
+def case_menu(auth, url):
+	casefunc = case_func.case_func(auth.key, auth.usr_acc_id, url)
 	running = True
 	while running == True:
-		print("What would you like to do? (1 for Caseboard, 2 for logout, 3 to exit)")
-		choice = int(raw_input())
+		choice = int(raw_input("What would you like to do? (1 to list, 2 to add, 3 to go back): "))
 		if choice == 1:
-			case_board(auth, request_data)
+			casefunc.case_list()
+		elif choice == 2:
+			casefunc.case_add()
+		elif choice == 3:
+			running = False
+
+def main_menu(auth, url):
+	running = True
+	while running == True:
+		choice = int(raw_input("What would you like to do? (1 for Cases, 2 to exit): "))
+		if choice == 1:
+			case_menu(auth, url)
 		elif choice == 2:
 			print("Logging out.")
 			auth.logout()
-		elif choice == 3:
-			try:
-				auth.logout()
-			except: pass
 			running = False
 		else:
 			print("That's not an option.")
 
 def main():
-	request_data = {'limit':{'OR1':{'OR1':{'status':"RESPONSE"},'OR2':{'status':"PENDING"},'OR3':{'status':"NEW"},'OR4':{'status':"UPSTREAM"}}}, 'account_id': '2277'}
 	url = 'https://backendbeta.ibizapi.com:8888/JSON/'
 	auth = keyauth.keyauth(url)
-	menu(auth, request_data)
+	auth_check(auth)
+	menu_menu(auth, url)
 
 main()
