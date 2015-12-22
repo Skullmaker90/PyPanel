@@ -11,15 +11,15 @@ class case_func(object):
 		desc = str(raw_input("Case description: "))
 		request_data = {'account_id': '%s', 'case_spec':{'assigned_id': '1000', 'description': '%s', 'type': "PROBLEM"} , 'session_key': '%s'} % (dest_acc, description, self.key)
 		choice1 = str(raw_input("Internal note?: "))
-		run = True
-		while run == True:
+		loop = True
+		while loop == True:
 			if (choice1 == str("yes") or choice1 == str("y")):
 				inter_note = str(raw_input("Note: "))
 				request_data['case_spec']['internal_notes'] = inter_note
-				run = False
+				loop = False
 			elif (choice1 == str("no") or choice1 == str("n")):
 				inter_note = ""
-				run = False
+				loop = False
 				pass
 			else:
 				choice1 = str(raw_input("Yes or no please: "))
