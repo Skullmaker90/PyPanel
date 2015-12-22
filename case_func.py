@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-class case_func(self):
+class case_func(object):
 	def __init__(self, key, usr_acc_id, backend_url):
 		self.key = key
 		self.usr_acc_id = usr_acc_id
@@ -10,22 +10,22 @@ class case_func(self):
 		dest_acc = int(raw_input("Account to open under: "))
 		desc = str(raw_input("Case description: "))
 		request_data = {'account_id': '%s', 'case_spec':{'assigned_id': '1000', 'description': '%s', 'type': "PROBLEM"} , 'session_key': '%s'} % (dest_acc, description, self.key)
-		choice1 = str(raw_input("Internal note?: ")
-		loop = True
-		while loop = True:
+		choice1 = str(raw_input("Internal note?: "))
+		run = True
+		while run == True:
 			if (choice1 == str("yes") or choice1 == str("y")):
 				inter_note = str(raw_input("Note: "))
 				request_data['case_spec']['internal_notes'] = inter_note
-				loop = False
+				run = False
 			elif (choice1 == str("no") or choice1 == str("n")):
 				inter_note = ""
-				loop = False
+				run = False
 				pass
 			else:
 				choice1 = str(raw_input("Yes or no please: "))
 		choice2  = int(raw_input("Send off or stay on the board? (1 for go, 2 for stay): "))
 		loop = True
-		while loop = True:
+		while loop == True:
 			if choice2 == '1':
 				request_data['case_spec']['status'] = str("CUSTOMER")
 				req_time = True
@@ -36,17 +36,17 @@ class case_func(self):
 			else:
 				choice2 = int(raw_input("1 or 2 please: "))
 		choice3 = str(raw_input("Set to close? (Default is YES): "))
-			if choice3 == str(""):
-				pass
-			elif (choice3 == str("no") or choice3 == str("n"))
-				request_data['case_spec']['auto_close'] = str("NO")
-				req_time = True
+		if choice3 == str(""):
+			pass
+		elif (choice3 == str("no") or choice3 == str("n")):
+			request_data['case_spec']['auto_close'] = str("NO")
+			req_time = True
 		if req_time == True:
 			req_time_string = str("Yes")
 		loop = True
 		while req_time == True:
 			try:
-				while loop == True
+				while loop == True:
 					choice4 = raw_input("Time in hours to come back: ")
 					if choice4 > '0':
 						request_data['case_spec']['return_hours'] = int(choice4)
@@ -66,7 +66,7 @@ class case_func(self):
 			string = string + ("Internal note: " + request_data['case_spec']['internal_notes'] + "\n")
 		print(string)
 		final = True
-		while final = True:
+		while final == True:
 			final_choice = raw_input("Are these settings correct?: ")
 			if (final_choice == "yes" or final_choice == "y"):
 				print("Creating case.")
@@ -80,7 +80,7 @@ class case_func(self):
 		# Commenting here to show end of questions.
 		request_url = backend_url + 'Case?action=Add'
 		try:
-			r = requests.post(request_url, data=json.dumps(request_data), verify=False))
+			r = requests.post(request_url, data=json.dumps(request_data), verify=False)
 			a = r.json()
 			result = a[u'new_id']
 			print("Success!: ") + result
@@ -89,8 +89,10 @@ class case_func(self):
 			return
 
 	def case_close(self):
+		pass
 
 	def case_edit(self):
+		pass
 
 	def case_list(self, auth_key):
 		self.auth_key = auth_key
@@ -109,3 +111,4 @@ class case_func(self):
                 	print(string)
 
 	def case_view(self):
+		pass
