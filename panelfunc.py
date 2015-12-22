@@ -3,6 +3,8 @@
 import keyauth, requests, json, getpass, time
 requests.packages.urllib3.disable_warnings()
 
+# Author: Anthony Smith. Last update: 12/22/2015. Version: 0.1
+
 # This is the current running functions of the PyPanel. ./panelfunc.py
 # will ask what you would like to do, if you request the caseboard it
 # will check keyauth to see if your authenticated and if not it'll auth
@@ -29,14 +31,13 @@ def case_board(auth, request_data):
 	board = r.json()
 	list = board[u'LIST']
 	for row in list:
-		if (row[u'status'] == "RESPONSE" or row[u'status'] == "PENDING" or row[u'status'] == "NEW"):
-			string = ("\nCase Number: " + row[u'case_id'] + "\n"
-				"Account Number: " + row[u'account_id'] + "\n"
-				"Open Date: " + time.strftime('%m/%d/%Y %H:%M:%S', time.localtime(int(row[u'creation_date']))) + "\n"
-				"Last Update: " + time.strftime('%m/%d/%Y %H:%M:%S',  time.localtime(int(row[u'last_update'])))  + "\n"
-				"Status: " + row[u'status'] + "\n"
-				"Description: " + row[u'description'] + "\n")
-			print(string)
+		string = ("\nCase Number: " + row[u'case_id'] + "\n"
+			"Account Number: " + row[u'account_id'] + "\n"
+			"Open Date: " + time.strftime('%m/%d/%Y %H:%M:%S', time.localtime(int(row[u'creation_date']))) + "\n"
+			"Last Update: " + time.strftime('%m/%d/%Y %H:%M:%S',  time.localtime(int(row[u'last_update'])))  + "\n"
+			"Status: " + row[u'status'] + "\n"
+			"Description: " + row[u'description'] + "\n")
+		print(string)
 
 def menu(auth, request_data):
 	running = True
@@ -57,7 +58,7 @@ def menu(auth, request_data):
 			print("That's not an option.")
 
 def main():
-	request_data = {'account_id': '2277'}
+	request_data = {'limit':{'OR1':{'OR1':{'status':"RESPONSE"},'OR2':{'status':"PENDING"},'OR3':{'status':"NEW"},'OR4':{'status':"UPSTREAM"}}}, 'account_id': '2277'}
 	url = 'https://backendbeta.ibizapi.com:8888/JSON/'
 	auth = keyauth.keyauth(url)
 	menu(auth, request_data)
