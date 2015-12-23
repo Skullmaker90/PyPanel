@@ -14,7 +14,7 @@ requests.packages.urllib3.disable_warnings()
 # backendfunc class with everything we would need to call for the backend.
 
 def auth_check(auth):
-	if auth.key == None:
+	while auth.key == None:
 		user = raw_input("Email: ")
 		password = getpass.getpass("Password: ")
 		try:
@@ -54,6 +54,6 @@ def main():
 	url = 'https://backendbeta.ibizapi.com:8888/JSON/'
 	auth = keyauth.keyauth(url)
 	auth_check(auth)
-	menu_menu(auth, url)
+	main_menu(auth, url)
 
 main()
