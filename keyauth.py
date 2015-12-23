@@ -23,7 +23,7 @@ class keyauth(object):
 		response_json = a.json()
 		try:
 			self.key = response_json['session_key']
-			self.usr_acc_id = respons_json['account_id']
+			self.usr_acc_id = response_json['account_id']
 		except: 
 			print("Session key not set.")
 
