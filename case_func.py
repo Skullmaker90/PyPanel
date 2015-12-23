@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+import requests, json, time
+
 class case_func(object):
 	def __init__(self, key, usr_acc_id, backend_url):
 		self.key = key
@@ -94,10 +96,9 @@ class case_func(object):
 	def case_edit(self):
 		pass
 
-	def case_list(self, auth_key):
-		self.auth_key = auth_key
-		request_data = {'limit':{'OR1':{'OR1':{'status':"RESPONSE"},'OR2':{'status':"PENDING"},'OR3':{'status':"NEW"},'OR4':{'status':"UPSTREAM"}}}, 'account_id': '2277', 'session_key': '%s'} % (auth_key)
-        	request_url = auth.backend_url + 'Case?action=List'
+	def case_list(self):
+		request_data = {'limit':{'OR1':{'OR1':{'status':"RESPONSE"},'OR2':{'status':"PENDING"},'OR3':{'status':"NEW"},'OR4':{'status':"UPSTREAM"}}}, 'account_id': '2277', 'session_key': self.key}
+        	request_url = self.backend_url + 'Case?action=List'
         	r = requests.post(request_url, data=json.dumps(request_data), verify=False)
         	board = r.json()
         	list = board[u'LIST']
